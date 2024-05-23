@@ -12,26 +12,34 @@
 # @app.get("/item/{item_id}")
 # def read_item(item_id: int, q: Optional[str] = None):
 #     return {"item_id": item_id, "q": q}
-
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
+
+# from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI()
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-templates = Jinja2Templates(directory="templates")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
-@app.get("/items/{id}", response_class=HTMLResponse)
-async def read_item(request: Request, id: str):
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
     return templates.TemplateResponse(
-        request=request, name="item.html", context={"id": id}
+        "./index.html", {"request": request, "title": "콜렉터 북북이"}
     )
+
+
+@app.get("/search", response_class=HTMLResponse)
+async def search(request: Request, q: str):
+    print(q)
+    return templates.TemplateResponse(
+        "./index.html", {"request": request, "title": "콜렉터 북북이", "keyword": q}
+    )
+
 
 # from enum import Enum
 
