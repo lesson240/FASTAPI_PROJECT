@@ -5,10 +5,9 @@ class BookModel(Model):
     keyword: str
     publisher: str
     price: int
-    img: str
+    image: str
 
-    class Config:
-        collection = "books"
+    # class Config:
+    #     collection = "books"
 
-
-# db fastapi-pj -> collection books -> document {}
+    # TypeError: field Config is defined without type annotation
