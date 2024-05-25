@@ -7,7 +7,8 @@ class BookModel(Model):
     price: int
     image: str
 
-    # class Config:
-    #     collection = "books"
+    model_config = {
+        "collection": "test"
+    }
 
     # TypeError: field Config is defined without type annotation
